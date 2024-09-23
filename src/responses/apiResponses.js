@@ -54,7 +54,7 @@ const badRequest = (params, request, response) => {
 };
 
 const unauthorized = (params, request, response) => {
-  if (params.get('loggedIn') === 'true') {
+  if (params.get('loggedIn') === 'yes') {
     return success(params, request, response);
   }
 
