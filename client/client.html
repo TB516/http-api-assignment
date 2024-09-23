@@ -5,7 +5,51 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
+    const getData = async () => {
+      const page = document.getElementById('page').value;
+      const type = document.getElementById('type').value;
 
+      return await fetch(page, {
+        headers: {
+          'accept': `${type}`,
+        },
+      });
+    };
+
+    const parseData = (data, response) => {
+      if (response.headers.get('Content-Type') === 'application/json'){
+        return JSON.parse(data);
+      }
+      else {
+        const dataArr = data.replaceAll(/<[^>]+>/g, '~').split('~').filter((e) => { return e !== '' });
+
+        return { 'id' : dataArr[0], 'message': dataArr[1], };
+      }
+    };
+
+    const displayData = (data, response) => {
+      data = parseData(data, response);
+
+      const content = document.getElementById('content');
+      let title = data.id.split(/(?=[A-Z])/).join(' ');
+      title = title[0].toUpperCase() + title.slice(1);
+      content.innerHTML = `<div><b>${title}</b></div><div>Message: ${data.message}</div>`;
+    };
+
+    const sendRequest = async () => {
+      const response = await getData();
+      const responseText = await response.text();
+
+      console.log(responseText)
+
+      displayData(responseText, response);
+    };
+    
+    const init = () => {
+      document.getElementById('send').onclick = sendRequest;
+    };
+
+    window.onload = init;
   </script>
 </head>
 <body>
