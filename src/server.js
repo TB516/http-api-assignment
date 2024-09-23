@@ -23,7 +23,7 @@ const onRequest = (request, response) => {
     return routes[parsedUrl.pathname](parsedUrl.searchParams, request, response);
   }
 
-  return routes[404](request, response);
+  return routes[404](parsedUrl.searchParams, request, response);
 };
 
 http.createServer(onRequest).listen(port, () => {
