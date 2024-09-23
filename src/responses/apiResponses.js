@@ -41,7 +41,7 @@ const success = (_params, request, response) => {
 
 const badRequest = (params, request, response) => {
   if (params.get('valid') === 'true') {
-    return success(request, response, params);
+    return success(params, request, response);
   }
 
   const responseBody = { id: 'badRequest', message: 'Missing valid query parameter set to true.' };
@@ -55,7 +55,7 @@ const badRequest = (params, request, response) => {
 
 const unauthorized = (params, request, response) => {
   if (params.get('loggedIn') === 'true') {
-    return success(request, response, params);
+    return success(params, request, response);
   }
 
   const responseBody = { id: 'unauthorized', message: 'Missing loggedIn query parameter set to yes.' };
